@@ -26,13 +26,21 @@ public class Tarea implements Serializable {
     private String titulo;
     @Column
     private String descripcion;
-    @Column
-    private String estado;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+    private EstadoTarea estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    public Tarea(String titulo, String descripcion, String estado, Usuario usuario, Categoria categoria) {
+    //Constructor
+    public Tarea(String titulo, String descripcion, EstadoTarea estado, Usuario usuario, Categoria categoria) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.estado = estado;

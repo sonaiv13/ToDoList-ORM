@@ -27,10 +27,24 @@ public class Usuario implements Serializable {
     @Column
     private String contrasenia;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Tarea> tareas = new HashSet<>();
 
+    //Constructor
     public Usuario(String nombreUsuario, String contrasenia) {
         this.nombreUsuario = nombreUsuario;
         this.contrasenia = contrasenia;
     }
+
+    //Métodos de ayuda
+    public void addTarea(Tarea tarea){
+        tareas.add(tarea);
+        tarea.setUsuario(this);
+    }
+
+    public void removeTarea(Tarea tarea){
+        tareas.remove(tarea);
+        tarea.setUsuario(null);
+    }
+
 }

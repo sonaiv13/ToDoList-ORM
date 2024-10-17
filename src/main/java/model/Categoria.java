@@ -25,9 +25,23 @@ public class Categoria implements Serializable {
     @Column(name = "nombre_categoria")
     private String nombreCategoria;
 
+    @OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL)
     private Set<Tarea> tareas = new HashSet<>();
 
+    //Constructor
     public Categoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
+
+    //Métodos de ayuda
+    public void addTarea(Tarea tarea){
+        tareas.add(tarea);
+        tarea.setCategoria(this);
+    }
+
+    public void removeTarea(Tarea tarea){
+        tareas.add(tarea);
+        tarea.setCategoria(null);
+    }
+
 }
