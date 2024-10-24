@@ -1,10 +1,14 @@
 package service;
 
 import controller.DAOTarea;
+import database.HibernateUtil;
 import model.Categoria;
 import model.EstadoTarea;
 import model.Tarea;
 import model.Usuario;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -25,7 +29,25 @@ public class TareaService {
     }
 
     public List<Tarea> listarTareasPorUsuario(Integer usuarioId){
-        return daoTarea.obtenerTareasPorUsuario(usuarioId);
+        List<Tarea> tareas = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Tarea> query = session.createQuery(
+                    "SELECT t FROM Tarea t LEFT JOIN FETCH t.categoria WHERE t.usuario.id = :usuarioId",
+                    Tarea.class);
+            query.setParameter("usuarioId", usuarioId);
+            tareas = query.getResultList();
+
+            // Inicializar manualmente la categoría dentro de la sesión abierta
+            for (Tarea tarea : tareas) {
+                if (tarea.getCategoria() != null) {
+                    Hibernate.initialize(tarea.getCategoria());
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tareas;
     }
 
     public void actualizarEstadoTarea(Integer tareaId, EstadoTarea nuevoEstado){

@@ -55,11 +55,14 @@ public class DAOCategoria {
         Categoria categoria = null;
         try (Session session = sessionFactory.openSession()){
             transaction = session.beginTransaction();
-            Query<Categoria> query = session.createQuery("FROM Categoria C WHERE C.nombreCategoria = :nombre", Categoria.class);
+            Query<Categoria> query = session.createQuery("FROM Categoria C WHERE C.nombreCategoria = :nombre", Categoria.class)
+                    .setParameter("nombre", nombreCategoria);
             categoria = query.uniqueResult();
             transaction.commit();
         } catch (Exception e){
-            if(transaction != null) transaction.rollback();
+            if(transaction != null){
+                transaction.rollback();
+            }
             System.err.println("Error al obtener la categoria por nombre: " + e.getMessage());
             e.printStackTrace();
         }

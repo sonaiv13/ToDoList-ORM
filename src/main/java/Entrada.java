@@ -159,7 +159,12 @@ public class Entrada {
             System.out.println("Título: " + tarea.getTitulo());
             System.out.println("Descripción: " + tarea.getDescripcion());
             System.out.println("Estado: " + tarea.getEstado());
-            System.out.println("Categoria: " + (tarea.getCategoria() != null ? tarea.getCategoria().getNombreCategoria() : "Sin Categoria"));
+
+            if(tarea.getCategoria() != null){
+                System.out.println("Categoria: " + tarea.getCategoria().getNombreCategoria());
+            } else {
+                System.out.println("Categoría: Sin Categoría");
+            }
             System.out.println("----------------------------------");
         }
     }

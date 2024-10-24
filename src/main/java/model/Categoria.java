@@ -25,7 +25,7 @@ public class Categoria implements Serializable {
     @Column(name = "nombre_categoria")
     private String nombreCategoria;
 
-    @OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoria",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Tarea> tareas = new HashSet<>();
 
     //Constructor

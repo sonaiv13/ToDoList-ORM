@@ -9,13 +9,13 @@ public class CategoriaService {
 
     private DAOCategoria daoCategoria = new DAOCategoria();
 
-    public void crearCategoria(String nombre){
-        Categoria existente = daoCategoria.obtenerCategoriaPorNombre(nombre);
+    public void crearCategoria(String nombreCategoria){
+        Categoria existente = daoCategoria.obtenerCategoriaPorNombre(nombreCategoria);
         if(existente != null){
             System.out.println("La categoria ya existe.");
             return;
         }
-        Categoria categoria = new Categoria(nombre);
+        Categoria categoria = new Categoria(nombreCategoria);
         daoCategoria.guardarCategoria(categoria);
         System.out.println("Categoria creada exitosamente.");
     }
